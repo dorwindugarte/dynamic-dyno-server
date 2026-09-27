@@ -1,5 +1,5 @@
 /**
- * Servidor de Dynamic ($DYNO) para cobrar con NOWPayments.
+ * Servidor de Dynamic ($DINO) para cobrar con NOWPayments.
  *
  * Por qué existe este servidor:
  * La API key de NOWPayments es SECRETA. Si la pones directo en el HTML de tu web,
@@ -11,7 +11,7 @@
  *  - POST /api/create-invoice   -> crea una factura en NOWPayments y devuelve su URL
  *  - POST /api/ipn              -> NOWPayments te avisa aquí cuando un pago se confirma
  *  - GET  /api/raised           -> total recaudado (para la barra de progreso)
- *  - GET  /api/balance          -> $DYNO reservados por una wallet
+ *  - GET  /api/balance          -> $DINO reservados por una wallet
  *  - GET  /healthz              -> para que el hosting sepa que el servidor está vivo
  */
 require('dotenv').config();
@@ -72,7 +72,7 @@ app.post('/api/create-invoice', async (req, res) => {
         // pay_currency: si lo omites, el comprador elige la moneda (BTC, USDT, SOL, etc.)
         // en la propia página de NOWPayments, siempre que la tengas activada en tu cuenta.
         order_id: orderId,
-        order_description: `Dynamic $DYNO — reserva para wallet ${wallet}`,
+        order_description: `Dynamic $DINO — reserva para wallet ${wallet}`,
         ipn_callback_url: PUBLIC_URL ? `${PUBLIC_URL.replace(/\/$/, '')}/api/ipn` : undefined,
         success_url: FRONTEND_URL || undefined,
         cancel_url: FRONTEND_URL || undefined,
@@ -138,4 +138,4 @@ app.get('/api/raised', (req, res) => { const db = readDB(); res.json({ raisedUsd
 app.get('/api/balance', (req, res) => { const db = readDB(); res.json({ dynoTokens: db.balances[req.query.wallet] || 0 }); });
 app.get('/healthz', (req, res) => res.send('ok'));
 
-app.listen(PORT, () => console.log(`Servidor de Dynamic $DYNO escuchando en el puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor de Dynamic $DINO escuchando en el puerto ${PORT}`));
