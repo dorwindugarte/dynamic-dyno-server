@@ -18,7 +18,7 @@
  *  NOWPAYMENTS_API_KEY, NOWPAYMENTS_IPN_SECRET   (secretas)
  *  PUBLIC_URL      URL pública de ESTE servidor, sin "/" al final
  *  FRONTEND_URL    https://dynamicdyrex.netlify.app   (sin "/" al final)
- *  DYNO_PRICE      precio por token en USD, igual que CONFIG.price de la página (0.02)
+ *  DYREX_PRICE      precio por token en USD, igual que CONFIG.price de la página (0.02)
  *  DATA_DIR        carpeta del disco persistente, por ejemplo /var/data
  *  ADMIN_KEY       (opcional) clave larga y aleatoria para las rutas /api/admin/*
  *  ALLOWED_ORIGIN  (opcional) varias páginas permitidas separadas por coma
@@ -37,7 +37,7 @@ const {
   PUBLIC_URL,
   FRONTEND_URL,
   ALLOWED_ORIGIN,
-  DYNO_PRICE = '0.02',
+  DYREX_PRICE = '0.02',
   MIN_USD = '10',
   MAX_USD = '5000',
   DATA_DIR,
@@ -49,14 +49,14 @@ const clean = (u) => String(u || '').trim().replace(/\/+$/, '');
 const SELF = clean(PUBLIC_URL);
 const FRONT = clean(FRONTEND_URL);
 const ORIGINS = String(ALLOWED_ORIGIN || FRONT).split(',').map(clean).filter(Boolean);
-const PRICE = Number(DYNO_PRICE);
+const PRICE = Number(DYREX_PRICE);
 
 if (!NOWPAYMENTS_API_KEY) console.warn('⚠️  Falta NOWPAYMENTS_API_KEY.');
 if (!NOWPAYMENTS_IPN_SECRET) console.warn('⚠️  Falta NOWPAYMENTS_IPN_SECRET: no se pueden verificar los avisos de pago.');
 if (!SELF) console.warn('⚠️  Falta PUBLIC_URL: sin él NOWPayments no puede avisar los pagos, y no se crearán facturas.');
 if (!ORIGINS.length) console.warn('⚠️  Falta FRONTEND_URL: se aceptan peticiones de cualquier página.');
 if (!DATA_DIR) console.warn('⚠️  Falta DATA_DIR: los datos se guardan junto al código y se PIERDEN en cada reinicio o despliegue en Render. Conecta un disco persistente.');
-if (!(PRICE > 0)) console.warn('⚠️  DYNO_PRICE no es un número válido.');
+if (!(PRICE > 0)) console.warn('⚠️  DYREX_PRICE no es un número válido.');
 
 const app = express();
 app.set('trust proxy', 1);
